@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Check for Dockerfile(s)
         run: |
           dockerfiles_count=$(find . -type f -name 'Dockerfile' | wc -l)
