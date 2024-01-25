@@ -1,0 +1,30 @@
+name: Deployment
+on:
+  push:
+    branches: [staging, prod]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check for Dockerfile(s)
+        run: |
+          dockerfiles_count=$(find . -type f -name 'Dockerfile' | wc -l)
+          if [ "$dockerfiles_count" -eq 0 ]; then
+            echo "No Dockerfiles found"
+            exit 1
+          else
+            echo "Found $dockerfiles_count Dockerfile(s)"
+          fi
+      - name: Build Project
+        run: echo "Insert Docker build command here"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Environment
+        run: echo "Insert deployment commands or scripts here"
+        env:
+          ENVIRONMENT: ${{ github.ref == 'refs/heads/prod' && 'Production' || 'Staging' }} 
