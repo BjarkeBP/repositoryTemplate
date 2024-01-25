@@ -1,0 +1,14 @@
+name: Project Structure Validation
+on:
+  pull_request:
+    branches: [dev]
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Testing Environment
+        run: echo "Setup commands for your testing environment"
+      - name: Run Tests
+        run: echo "Insert test commands or scripts here"
