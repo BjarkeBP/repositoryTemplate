@@ -1,0 +1,21 @@
+name: Pre-Deployment Validation
+on:
+  pull_request:
+    branches: [staging]
+
+jobs:
+  is_buildable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check for Dockerfile(s)
+        run: |
+          dockerfiles_count=$(find . -type f -name 'Dockerfile' | wc -l)
+          if [ "$dockerfiles_count" -eq 0 ]; then
+            echo "No Dockerfiles found"
+            exit 1
+          else
+            echo "Found $dockerfiles_count Dockerfile(s)"
+          fi
+      - name: Build Project
+        run: echo "Insert Docker build command here"
