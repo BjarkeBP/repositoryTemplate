@@ -1,0 +1,28 @@
+name: development validation
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+        # Changes this part to make it work with your project -
+      - name: Set Up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm ci
+
+      # Modify this to match the command needed to run your tests
+      - name: Run Tests
+        run: npm test
+      # ------------------------------------------------------
+
+  # add more jobs here

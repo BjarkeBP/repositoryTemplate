@@ -1,21 +1,28 @@
-name: Pre-Deployment Validation
+name: pre-deployment validation
 on:
   pull_request:
-    branches: [staging]
+    branches:
+      - staging
 
 jobs:
-  is_buildable:
+  buildableAsDockerImage:
     runs-on: ubuntu-latest
+
+    # Sets the environment to the branch that it's on.
+    environment: staging
+    # When adding a service, add the variables/secrets here
+    env:
+      test: test
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Check for Dockerfile(s)
         run: |
-          dockerfiles_count=$(find . -type f -name 'Dockerfile' | wc -l)
-          if [ "$dockerfiles_count" -eq 0 ]; then
-            echo "No Dockerfiles found"
-            exit 1
+          if [ -f Dockerfile ]; then
+            echo "Dockerfile exists in this directory."
           else
-            echo "Found $dockerfiles_count Dockerfile(s)"
+            echo "Dockerfile does not exist in this directory."
           fi
-      - name: Build Project
-        run: echo "Insert Docker build command here"
+      - name: Build Docker Image
+        run: |
+          docker build -t myapp:${{ github.sha }} .
